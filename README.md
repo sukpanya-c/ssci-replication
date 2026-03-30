@@ -1,60 +1,7 @@
-# Spotify Popularity Audio Replication
+# ssci-replication
 
-This folder is the public replication package for the current analysis pipeline.
+This repository stores the replication package under:
 
-## Contents
+- `replication-spotify-popularity-audio/`
 
-- `dataset/`: data dictionary only
-- `analysis/src/`: reusable Python analysis modules
-- `analysis/notebooks/`: notebook entry points for replication
-- `analysis/output/`: generated data, tables, and figures
-- `analysis/tests/`: lightweight regression tests for the pipeline
-
-## Data Availability
-
-- The full raw dataset is not included in this public repository.
-- The repository includes:
-  - `dataset/data-dict.txt`
-  - processed analysis-ready files under `analysis/output/data/`
-- The notebooks and main analysis workflow run from the processed analysis-ready files, so the current results can still be reproduced without the raw CSV.
-- The raw data import and sample-construction layer can only be rerun if an authorized user places the raw file at:
-
-```text
-dataset/spotify_popularity_audio_dataset.csv
-```
-
-## Recommended Workflow
-
-1. Create a Python environment.
-2. Install dependencies:
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-3. Run the main notebook:
-
-- `analysis/notebooks/01_main_analysis.ipynb`
-
-4. Run the appendix notebook:
-
-- `analysis/notebooks/02_appendix_robustness.ipynb`
-
-The notebooks are thin wrappers around the Python workflow module in `analysis/src/workflows.py`, so rerunning the notebooks regenerates the analysis outputs from the module code.
-
-## Optional Command-Line Execution
-
-You can also execute the notebooks from the replication folder root:
-
-```bash
-python -m jupyter nbconvert --to notebook --execute --inplace analysis/notebooks/01_main_analysis.ipynb
-python -m jupyter nbconvert --to notebook --execute --inplace analysis/notebooks/02_appendix_robustness.ipynb
-```
-
-## Tests
-
-Run:
-
-```bash
-pytest analysis/tests -q
-```
+That folder contains the notebooks, Python modules, processed outputs, tests, and the data dictionary for the public replication release.
