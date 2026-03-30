@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib
+statsmodels
+scikit-learn
+nbformat
+nbconvert
+jupyter
+ipykernel
+pytest

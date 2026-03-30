@@ -1,0 +1,34 @@
+term_group,term,coefficient,std_error,p_value,n_obs,adj_r2,selected_genres
+control,Key = 1,0.07738150773831087,1.6500080272712534,0.9625947968233551,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 2,-0.7948990220370891,1.6240876208538408,0.624527792494864,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 3,2.0047830591911326,2.433192173465958,0.4099786251982862,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 4,1.0042902652285903,1.7487045995098938,0.5657612443547198,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 5,0.02253575269228425,1.7165905497946965,0.9895255087747885,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 6,-7.531964495375664,2.139579894935036,0.000431057886644199,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 7,0.6994443732446821,1.637417542066279,0.6692605269526755,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 8,0.4937039187542558,2.2953523823179,0.8296983136849424,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 9,-1.9885466446972684,1.5710042342719055,0.20559165108432664,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 10,-0.6790128894626923,2.1080873913608347,0.7473776782974471,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Key = 11,-3.403046311131589,1.9535478943354825,0.08151150055154534,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Mode = 1,-0.4801577350245966,0.9711869644667197,0.6210216057295682,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Time signature = 1,-91.32758966523618,5.253054704362176,1.0604261137089978e-67,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Time signature = 3,-64.6529884444354,4.337198320564423,2.984624597162077e-50,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Time signature = 4,-64.53197257865645,4.165508542381893,3.930018294076449e-54,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Time signature = 5,-62.95860097722688,4.875189528401807,3.7488471256145086e-38,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,duration_ms,2.2528577045793037e-05,6.746579108013634e-06,0.0008400211282989472,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+control,Explicit,-9.022913814567094,1.929196775016409,2.9105776151902003e-06,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+focal_main_effect,Dance orientation (z),4.548335366329935,2.197161306410742,0.038443332622685226,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Dance orientation (z) x Genre: rock-n-roll,-4.236350747576152,2.2332415026613135,0.05783434365734965,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Dance orientation (z) x Genre: hip-hop,-11.098490793548118,2.633184696760254,2.4993909334123502e-05,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Dance orientation (z) x Genre: jazz,2.7767492383172785,2.666512915579262,0.2977173123853666,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Dance orientation (z) x Genre: electronic,-3.1995643474010156,2.274449595567114,0.15950383179782723,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+focal_main_effect,Sonic intensity (z),1.3351580509627157,2.3103519518603837,0.5633299818134256,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Sonic intensity (z) x Genre: rock-n-roll,-1.3394433952930278,2.3514932674135105,0.5689395570348226,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Sonic intensity (z) x Genre: hip-hop,4.600885160312374,2.831483978187473,0.10418335309217155,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Sonic intensity (z) x Genre: jazz,-3.366360042131509,2.777985387445818,0.225589313622923,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Sonic intensity (z) x Genre: electronic,0.8407072980952979,2.398048871873831,0.7259036743771811,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+focal_main_effect,Positive affect (z),-5.264327419722879,2.3910680723713686,0.027689083302567776,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Positive affect (z) x Genre: rock-n-roll,5.862522995180738,2.4388711685120312,0.016226293968578283,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Positive affect (z) x Genre: hip-hop,8.589916128450668,2.80238966817004,0.0021751635418644543,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Positive affect (z) x Genre: jazz,-0.8584998286891741,2.7299982840916144,0.7531648579853361,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic
+feature_genre_interaction,Positive affect (z) x Genre: electronic,4.1372194460896194,2.4437605793432984,0.09046070270555596,2760,0.33795997380358456,pop | rock-n-roll | hip-hop | jazz | electronic

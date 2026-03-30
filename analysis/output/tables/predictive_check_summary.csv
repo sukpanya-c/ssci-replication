@@ -1,0 +1,3 @@
+model_name,test_r2,test_rmse,n_train,n_test,train_group_count,test_group_count,group_overlap_count,r2_gain_vs_genre_control,rmse_reduction_vs_genre_control
+genre_control,0.40849074093032733,14.51151838033852,58753,14689,58753,14689,0,0.0,0.0
+genre_control_plus_affective,0.411296628661756,14.477058992917916,58753,14689,58753,14689,0,0.0028058877314286468,0.03445938742060406

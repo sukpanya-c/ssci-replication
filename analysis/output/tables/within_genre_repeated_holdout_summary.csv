@@ -1,0 +1,2 @@
+n_repetitions,mean_test_r2_gain,std_test_r2_gain,min_test_r2_gain,max_test_r2_gain,mean_rmse_reduction,std_rmse_reduction,min_rmse_reduction,max_rmse_reduction
+10,0.01729580828800683,0.013347135489278645,-0.01087712623531667,0.02938272627766758,0.26211640132212716,0.2063503427030712,-0.17075114385725243,0.4613211774221391
