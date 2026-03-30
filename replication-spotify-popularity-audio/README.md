@@ -17,6 +17,7 @@ This folder is the public replication package for the current analysis pipeline.
   - processed analysis-ready files under `analysis/output/data/`
 - The notebooks and main analysis workflow run from the processed analysis-ready files, so the current results can still be reproduced without the raw CSV.
 - The raw data import and sample-construction layer can only be rerun if an authorized user places the raw file at:
+- If access to the underlying datasets is needed, please contact `sukpanya_c@sjtu.edu.cn`.
 
 ```text
 dataset/spotify_popularity_audio_dataset.csv
