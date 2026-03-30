@@ -4,7 +4,7 @@ This folder is the public replication package for the current analysis pipeline.
 
 ## Contents
 
-- `dataset/`: data dictionary only
+- `dataset/`: placeholder location for restricted local data files
 - `analysis/src/`: reusable Python analysis modules
 - `analysis/notebooks/`: notebook entry points for replication
 - `analysis/output/`: generated data, tables, and figures
@@ -14,7 +14,6 @@ This folder is the public replication package for the current analysis pipeline.
 
 - The full raw dataset is not included in this public repository.
 - The repository includes:
-  - `dataset/data-dict.txt`
   - processed analysis-ready files under `analysis/output/data/`
 - The notebooks and main analysis workflow run from the processed analysis-ready files, so the current results can still be reproduced without the raw CSV.
 - The raw data import and sample-construction layer can only be rerun if an authorized user places the raw file at:
