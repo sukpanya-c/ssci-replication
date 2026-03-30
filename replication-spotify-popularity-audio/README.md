@@ -34,11 +34,11 @@ python -m pip install -r requirements.txt
 
 3. Run the main notebook:
 
-- `analysis/notebooks/01_main_analysis.ipynb`
+- `analysis/notebooks/01_run_main_analysis.ipynb`
 
 4. Run the appendix notebook:
 
-- `analysis/notebooks/02_appendix_robustness.ipynb`
+- `analysis/notebooks/02_run_appendix_robustness.ipynb`
 
 The notebooks are thin wrappers around the Python workflow module in `analysis/src/workflows.py`, so rerunning the notebooks regenerates the analysis outputs from the module code.
 
@@ -47,8 +47,8 @@ The notebooks are thin wrappers around the Python workflow module in `analysis/s
 You can also execute the notebooks from the replication folder root:
 
 ```bash
-python -m jupyter nbconvert --to notebook --execute --inplace analysis/notebooks/01_main_analysis.ipynb
-python -m jupyter nbconvert --to notebook --execute --inplace analysis/notebooks/02_appendix_robustness.ipynb
+python -m jupyter nbconvert --to notebook --execute --inplace analysis/notebooks/01_run_main_analysis.ipynb
+python -m jupyter nbconvert --to notebook --execute --inplace analysis/notebooks/02_run_appendix_robustness.ipynb
 ```
 
 ## Tests
