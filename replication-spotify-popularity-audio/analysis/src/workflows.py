@@ -13,6 +13,8 @@ try:
         GENRE_DEVIATION_ROBUSTNESS_TABLE_PATH,
         GENRE_PROFILE_SUMMARY_TABLE_PATH,
         GENRE_SELECTION_TABLE_PATH,
+        MANUSCRIPT_PRIMARY_EXPORT_PATH,
+        MANUSCRIPT_ROBUSTNESS_EXPORT_PATH,
         MAIN_COEFFICIENT_FIGURE_PATH,
         MAIN_REGRESSION_TABLE_PATH,
         PREDICTIVE_CHECK_TABLE_PATH,
@@ -31,6 +33,7 @@ try:
         WITHIN_GENRE_SELECTION_ROBUSTNESS_FIGURE_PATH,
         WITHIN_GENRE_SELECTION_ROBUSTNESS_TABLE_PATH,
     )
+    from .data_prep import export_dataset, select_manuscript_sharing_columns
     from .modeling import (
         compute_within_genre_joint_test,
         create_descriptive_outputs,
@@ -76,6 +79,8 @@ except ImportError:  # pragma: no cover - compatibility for direct module execut
         GENRE_DEVIATION_ROBUSTNESS_TABLE_PATH,
         GENRE_PROFILE_SUMMARY_TABLE_PATH,
         GENRE_SELECTION_TABLE_PATH,
+        MANUSCRIPT_PRIMARY_EXPORT_PATH,
+        MANUSCRIPT_ROBUSTNESS_EXPORT_PATH,
         MAIN_COEFFICIENT_FIGURE_PATH,
         MAIN_REGRESSION_TABLE_PATH,
         PREDICTIVE_CHECK_TABLE_PATH,
@@ -94,6 +99,7 @@ except ImportError:  # pragma: no cover - compatibility for direct module execut
         WITHIN_GENRE_SELECTION_ROBUSTNESS_FIGURE_PATH,
         WITHIN_GENRE_SELECTION_ROBUSTNESS_TABLE_PATH,
     )
+    from data_prep import export_dataset, select_manuscript_sharing_columns
     from modeling import (
         compute_within_genre_joint_test,
         create_descriptive_outputs,
@@ -151,6 +157,10 @@ def run_main_analysis_workflow(project_root: str | Path) -> dict[str, Any]:
     root = Path(project_root).resolve()
     primary_sample = load_analysis_dataset(root / PRIMARY_EXPORT_PATH)
     robustness_sample = load_analysis_dataset(root / ROBUSTNESS_EXPORT_PATH)
+    manuscript_primary = select_manuscript_sharing_columns(primary_sample)
+    manuscript_robustness = select_manuscript_sharing_columns(robustness_sample)
+    export_dataset(manuscript_primary, root / MANUSCRIPT_PRIMARY_EXPORT_PATH)
+    export_dataset(manuscript_robustness, root / MANUSCRIPT_ROBUSTNESS_EXPORT_PATH)
 
     descriptive_table, correlation_matrix = create_descriptive_outputs(primary_sample)
     export_table(descriptive_table, root / DESCRIPTIVE_TABLE_PATH)
@@ -238,6 +248,18 @@ def run_main_analysis_workflow(project_root: str | Path) -> dict[str, Any]:
             "primary_audit": audit_dataset(primary_sample),
             "robustness_audit": audit_dataset(robustness_sample),
         },
+        "processed_data": {
+            "primary_path": str(root / PRIMARY_EXPORT_PATH),
+            "robustness_path": str(root / ROBUSTNESS_EXPORT_PATH),
+            "primary_columns": list(primary_sample.columns),
+            "robustness_columns": list(robustness_sample.columns),
+        },
+        "manuscript_data": {
+            "primary_path": str(root / MANUSCRIPT_PRIMARY_EXPORT_PATH),
+            "robustness_path": str(root / MANUSCRIPT_ROBUSTNESS_EXPORT_PATH),
+            "primary_columns": list(manuscript_primary.columns),
+            "robustness_columns": list(manuscript_robustness.columns),
+        },
         "descriptives": {
             "table_path": str(root / DESCRIPTIVE_TABLE_PATH),
             "correlation_path": str(root / CORRELATION_MATRIX_PATH),
@@ -280,6 +302,8 @@ def run_appendix_robustness_workflow(project_root: str | Path) -> dict[str, Any]
 
     root = Path(project_root).resolve()
     robustness_sample = load_analysis_dataset(root / ROBUSTNESS_EXPORT_PATH)
+    manuscript_robustness = select_manuscript_sharing_columns(robustness_sample)
+    export_dataset(manuscript_robustness, root / MANUSCRIPT_ROBUSTNESS_EXPORT_PATH)
     robustness_results = fit_robustness_models(robustness_sample)
     robustness_summary_table = build_robustness_summary_table(robustness_results)
     export_table(robustness_summary_table, root / ROBUSTNESS_SUMMARY_TABLE_PATH)
@@ -289,6 +313,14 @@ def run_appendix_robustness_workflow(project_root: str | Path) -> dict[str, Any]
             "robustness_shape": robustness_sample.shape,
             "robustness_audit": audit_dataset(robustness_sample),
             "had_multiple_genres_count": int(robustness_sample["had_multiple_genres"].sum()),
+        },
+        "processed_data": {
+            "robustness_path": str(root / ROBUSTNESS_EXPORT_PATH),
+            "robustness_columns": list(robustness_sample.columns),
+        },
+        "manuscript_data": {
+            "robustness_path": str(root / MANUSCRIPT_ROBUSTNESS_EXPORT_PATH),
+            "robustness_columns": list(manuscript_robustness.columns),
         },
         "robustness": {
             "comparison": robustness_results["comparison"],

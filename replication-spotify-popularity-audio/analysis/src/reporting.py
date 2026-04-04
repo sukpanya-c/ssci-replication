@@ -34,9 +34,9 @@ TERM_LABELS = {
     "danceability_dev_z": "Dance orientation deviation (z)",
     "energy_dev_z": "Sonic intensity deviation (z)",
     "valence_dev_z": "Positive affect deviation (z)",
-    "danceability_abs_dev_z": "Dance orientation absolute deviation (z)",
-    "energy_abs_dev_z": "Sonic intensity absolute deviation (z)",
-    "valence_abs_dev_z": "Positive affect absolute deviation (z)",
+    "danceability_abs_dev_z": "Absolute deviation in dance orientation (z)",
+    "energy_abs_dev_z": "Absolute deviation in sonic intensity (z)",
+    "valence_abs_dev_z": "Absolute deviation in positive affect (z)",
 }
 
 
@@ -469,7 +469,9 @@ def build_genre_deviation_model_table(results: dict[str, Any]) -> pd.DataFrame:
                 "term": _label_term(term),
                 "coefficient": float(model.params[term]),
                 "std_error": float(model.bse[term]),
-                "p_value": float(model.pvalues[term]),
+                "p_value_raw": float(model.pvalues[term]),
+                "p_value": _format_p_value_for_display(float(model.pvalues[term])),
+                "p_value_display": _format_p_value_for_display(float(model.pvalues[term])),
                 "n_obs": float(comparison["n_obs"]),
                 "adj_r2": float(comparison["fit_metric_value"]),
             }
@@ -500,7 +502,9 @@ def build_genre_deviation_robustness_table(results: dict[str, Any]) -> pd.DataFr
                 "term": _label_term(term),
                 "coefficient": float(model.params[term]),
                 "std_error": float(model.bse[term]),
-                "p_value": float(model.pvalues[term]),
+                "p_value_raw": float(model.pvalues[term]),
+                "p_value": _format_p_value_for_display(float(model.pvalues[term])),
+                "p_value_display": _format_p_value_for_display(float(model.pvalues[term])),
                 "n_obs": float(comparison["n_obs"]),
                 "adj_r2": float(comparison["fit_metric_value"]),
             }
@@ -591,7 +595,18 @@ def _format_manuscript_genre_label(target_genre: str, selected_genre: str) -> st
 
     if target_genre == selected_genre:
         return target_genre
-    return f"{target_genre} (dataset proxy: {selected_genre})"
+    return f"{selected_genre} (dataset proxy)"
+
+
+def _format_p_value_for_display(p_value: float) -> str:
+    """Format p-values to match manuscript table conventions."""
+
+    if np.isnan(p_value):
+        return ""
+    rounded = round(float(p_value), 3)
+    if rounded == 0.0:
+        return "< 0.001"
+    return f"{rounded:.3f}"
 
 
 def _format_substitute_note(target_genre: str, selected_genre: str, selection_type: str) -> str:

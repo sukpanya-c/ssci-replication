@@ -14,8 +14,10 @@ This repository is the public replication package for the current analysis pipel
 
 - The full raw dataset is not included in this public repository.
 - The repository includes:
-  - processed analysis-ready files under `analysis/output/data/`
+  - code-compatible processed analysis files under `analysis/output/data/`
+  - manuscript-slim processed files under `analysis/output/data/`
 - The notebooks and main analysis workflow run from the processed analysis-ready files, so the current results can still be reproduced without the raw CSV.
+- The manuscript-slim files are column-reduced versions of the processed data for public sharing convenience; the Python workflow still runs on the code-compatible processed files.
 - The raw data import and sample-construction layer can only be rerun if an authorized user places the raw file at:
 - If access to the underlying datasets is needed, please contact `sukpanya_c@sjtu.edu.cn`.
 

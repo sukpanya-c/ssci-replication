@@ -8,6 +8,7 @@ try:
     from .config import (
         GENRE_COLUMN,
         JUNK_COLUMNS,
+        MANUSCRIPT_SHARING_COLUMNS,
         REQUIRED_COLUMNS,
         ROBUSTNESS_METADATA_COLUMNS,
         TRACK_ID_COLUMN,
@@ -17,6 +18,7 @@ except ImportError:  # pragma: no cover - compatibility for direct module execut
     from config import (
         GENRE_COLUMN,
         JUNK_COLUMNS,
+        MANUSCRIPT_SHARING_COLUMNS,
         REQUIRED_COLUMNS,
         ROBUSTNESS_METADATA_COLUMNS,
         TRACK_ID_COLUMN,
@@ -74,6 +76,20 @@ def select_analysis_columns(df: pd.DataFrame) -> pd.DataFrame:
 
     _validate_required_columns(df)
     selected_columns = list(REQUIRED_COLUMNS) + [
+        column for column in ROBUSTNESS_METADATA_COLUMNS if column in df.columns
+    ]
+    return df.loc[:, selected_columns].copy()
+
+
+def select_manuscript_sharing_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Keep only the manuscript-facing subset of processed analysis columns."""
+
+    missing_columns = [column for column in MANUSCRIPT_SHARING_COLUMNS if column not in df.columns]
+    if missing_columns:
+        missing_list = ", ".join(missing_columns)
+        raise ValueError(f"Missing manuscript-sharing columns: {missing_list}")
+
+    selected_columns = list(MANUSCRIPT_SHARING_COLUMNS) + [
         column for column in ROBUSTNESS_METADATA_COLUMNS if column in df.columns
     ]
     return df.loc[:, selected_columns].copy()

@@ -9,6 +9,8 @@ OUTPUT_TABLE_DIR = Path("analysis/output/tables")
 OUTPUT_FIGURE_DIR = Path("analysis/output/figures")
 PRIMARY_EXPORT_PATH = OUTPUT_DATA_DIR / "spotify_tracks_primary_sample.csv"
 ROBUSTNESS_EXPORT_PATH = OUTPUT_DATA_DIR / "spotify_tracks_robustness_sample.csv"
+MANUSCRIPT_PRIMARY_EXPORT_PATH = OUTPUT_DATA_DIR / "spotify_tracks_primary_manuscript_sample.csv"
+MANUSCRIPT_ROBUSTNESS_EXPORT_PATH = OUTPUT_DATA_DIR / "spotify_tracks_robustness_manuscript_sample.csv"
 DESCRIPTIVE_TABLE_PATH = OUTPUT_TABLE_DIR / "descriptive_statistics.csv"
 CORRELATION_MATRIX_PATH = OUTPUT_TABLE_DIR / "correlation_matrix.csv"
 MAIN_REGRESSION_TABLE_PATH = OUTPUT_TABLE_DIR / "main_regression_table.csv"
@@ -54,6 +56,19 @@ REQUIRED_COLUMNS: tuple[str, ...] = (
     "track_genre",
 )
 ROBUSTNESS_METADATA_COLUMNS: tuple[str, ...] = ("genre_count", "had_multiple_genres")
+MANUSCRIPT_SHARING_COLUMNS: tuple[str, ...] = (
+    "track_id",
+    "popularity",
+    "duration_ms",
+    "explicit",
+    "key",
+    "mode",
+    "time_signature",
+    "danceability",
+    "energy",
+    "valence",
+    "track_genre",
+)
 TRACK_ID_COLUMN = "track_id"
 GENRE_COLUMN = "track_genre"
 OUTCOME_COLUMN = "popularity"

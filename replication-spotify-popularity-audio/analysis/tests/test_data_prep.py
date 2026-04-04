@@ -8,7 +8,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from analysis.src.config import REQUIRED_COLUMNS
+from analysis.src.config import MANUSCRIPT_SHARING_COLUMNS, REQUIRED_COLUMNS
 from analysis.src.data_prep import (
     build_primary_sample,
     build_robustness_sample,
@@ -16,6 +16,7 @@ from analysis.src.data_prep import (
     export_dataset,
     load_raw_data,
     select_analysis_columns,
+    select_manuscript_sharing_columns,
 )
 
 
@@ -127,6 +128,28 @@ def test_select_analysis_columns_keeps_robustness_metadata_when_present() -> Non
     selected = select_analysis_columns(build_robustness_sample(clean_raw_data(_sample_df())))
 
     assert list(selected.columns) == list(REQUIRED_COLUMNS) + ["genre_count", "had_multiple_genres"]
+
+
+def test_select_manuscript_sharing_columns_keeps_core_columns_only() -> None:
+    selected = select_manuscript_sharing_columns(clean_raw_data(_sample_df()))
+
+    assert list(selected.columns) == list(MANUSCRIPT_SHARING_COLUMNS)
+
+
+def test_select_manuscript_sharing_columns_keeps_robustness_metadata_when_present() -> None:
+    selected = select_manuscript_sharing_columns(build_robustness_sample(clean_raw_data(_sample_df())))
+
+    assert list(selected.columns) == list(MANUSCRIPT_SHARING_COLUMNS) + [
+        "genre_count",
+        "had_multiple_genres",
+    ]
+
+
+def test_select_manuscript_sharing_columns_raises_for_missing_required_core_column() -> None:
+    df = clean_raw_data(_sample_df()).drop(columns=["valence"])
+
+    with pytest.raises(ValueError, match="Missing manuscript-sharing columns"):
+        select_manuscript_sharing_columns(df)
 
 
 def test_export_dataset_writes_csv(tmp_path: Path) -> None:

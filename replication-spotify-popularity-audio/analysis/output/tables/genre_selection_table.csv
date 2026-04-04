@@ -1,6 +1,6 @@
 selection_rank,target_genre,manuscript_genre_label,selected_genre,n_tracks,selection_type,threshold_rule,market_rule,substitute_note
 1,pop,pop,pop,412,exact,minimum n >= 400,market-relevant genre screen with explicit threshold,Exact dataset label used
-2,rock,rock (dataset proxy: rock-n-roll),rock-n-roll,660,substitute,minimum n >= 400,market-relevant genre screen with explicit threshold,Selected as substitute for broader rock category
+2,rock,rock-n-roll (dataset proxy),rock-n-roll,660,substitute,minimum n >= 400,market-relevant genre screen with explicit threshold,Selected as substitute for broader rock category
 3,hip-hop,hip-hop,hip-hop,540,exact,minimum n >= 400,market-relevant genre screen with explicit threshold,Exact dataset label used
 4,jazz,jazz,jazz,452,exact,minimum n >= 400,market-relevant genre screen with explicit threshold,Exact dataset label used
 5,electronic,electronic,electronic,696,exact,minimum n >= 400,market-relevant genre screen with explicit threshold,Exact dataset label used

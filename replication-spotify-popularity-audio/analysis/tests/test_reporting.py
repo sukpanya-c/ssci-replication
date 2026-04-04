@@ -23,6 +23,7 @@ from analysis.src.modeling import (
     run_within_genre_selection_rule_robustness,
 )
 from analysis.src.reporting import (
+    _format_p_value_for_display,
     build_genre_selection_summary_table,
     build_genre_deviation_model_table,
     build_genre_deviation_profile_summary_table,
@@ -261,10 +262,23 @@ def test_genre_deviation_reporting_outputs_expected_columns() -> None:
     robustness_table = build_genre_deviation_robustness_table(results)
 
     assert {"genre", "feature", "genre_mean", "genre_std", "n_obs"} <= set(profile_table.columns)
-    assert {"term_group", "term", "coefficient", "std_error", "p_value"} <= set(model_table.columns)
-    assert {"term_group", "term", "coefficient", "std_error", "p_value"} <= set(robustness_table.columns)
+    assert {"term_group", "term", "coefficient", "std_error", "p_value_raw", "p_value", "p_value_display"} <= set(
+        model_table.columns
+    )
+    assert {"term_group", "term", "coefficient", "std_error", "p_value_raw", "p_value", "p_value_display"} <= set(
+        robustness_table.columns
+    )
     assert model_table["term_group"].eq("absolute_deviation").any()
     assert robustness_table["term_group"].eq("signed_deviation").any()
+    abs_terms = set(model_table.loc[model_table["term_group"] == "absolute_deviation", "term"])
+    assert abs_terms == {
+        "Absolute deviation in dance orientation (z)",
+        "Absolute deviation in sonic intensity (z)",
+        "Absolute deviation in positive affect (z)",
+    }
+    sonic_row = model_table.loc[model_table["term"] == "Sonic intensity (z)"].iloc[0]
+    assert sonic_row["p_value"] == sonic_row["p_value_display"]
+    assert sonic_row["p_value"] == _format_p_value_for_display(float(sonic_row["p_value_raw"]))
 
 
 def test_within_genre_support_tables_return_expected_columns() -> None:
@@ -305,7 +319,7 @@ def test_within_genre_support_tables_return_expected_columns() -> None:
         "market_rule",
     } <= set(selection_table.columns)
     assert selection_table.loc[selection_table["target_genre"] == "rock", "manuscript_genre_label"].item() == (
-        "rock (dataset proxy: rock-n-roll)"
+        "rock-n-roll (dataset proxy)"
     )
     assert {"test_type", "statistic", "df", "p_value", "term_count"} <= set(joint_table.columns)
     assert {"model_name", "test_r2", "test_rmse", "group_overlap_count"} <= set(predictive_table.columns)
@@ -325,6 +339,12 @@ def test_within_genre_support_helpers_run_on_current_results() -> None:
 
     assert joint_table.loc[0, "term_count"] == 12
     assert set(predictive_table["model_name"]) == {"no_interaction", "interaction_aware"}
+
+
+def test_format_p_value_for_display_matches_manuscript_rounding_rule() -> None:
+    assert _format_p_value_for_display(0.0008995455) == "0.001"
+    assert _format_p_value_for_display(0.000404) == "< 0.001"
+    assert _format_p_value_for_display(0.021128) == "0.021"
 
 
 def test_within_genre_robustness_reporting_helpers_return_expected_columns() -> None:
