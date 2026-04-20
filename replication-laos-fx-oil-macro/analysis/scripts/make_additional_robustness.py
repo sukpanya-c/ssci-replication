@@ -139,7 +139,7 @@ def main() -> None:
 
     placebo = make_placebo_scan(panel)
     placebo.to_csv(OUTPUT_TABLES / "table_7_placebo_break_scan.csv", index=False)
-    export_placebo_figure(placebo, OUTPUT_FIGURES / "figure_ael_placebo_break.png")
+    export_placebo_figure(placebo, OUTPUT_FIGURES / "figure_placebo_break.png")
 
 
 if __name__ == "__main__":

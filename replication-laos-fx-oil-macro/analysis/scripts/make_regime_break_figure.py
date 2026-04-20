@@ -10,12 +10,12 @@ import matplotlib.pyplot as plt
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Create the AEL regime-break figure for Laos.")
+    parser = argparse.ArgumentParser(description="Create the regime-break figure for Laos.")
     parser.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path(__file__).resolve().parents[1] / "output" / "paper_figures" / "figure_ael_regime_break.png",
+        default=Path(__file__).resolve().parents[1] / "output" / "paper_figures" / "figure_regime_break.png",
     )
     return parser
 

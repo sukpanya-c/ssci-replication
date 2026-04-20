@@ -7,7 +7,7 @@ The executable public replication sample in this folder starts in `2006-01`.
 
 - `dataset/`: real shared data files used by the replication workflow
 - `analysis/src/`: reusable Python analysis modules
-- `analysis/scripts/`: command-line runners for the pipeline, paper bundle, and AEL-specific figures
+- `analysis/scripts/`: command-line runners for the pipeline, paper bundle, and additional robustness figures
 - `analysis/notebooks/`: notebook entry points for project inspection and reruns
 - `analysis/output/`: generated data, tables, figures, and model summaries
 - `analysis/paper/`: generated manuscript-support summary
@@ -114,11 +114,11 @@ PYTHONPATH=analysis/src python analysis/scripts/build_submission_bundle.py \
   --paper-dir analysis/paper
 ```
 
-Regenerate the AEL-specific figure and robustness extras used in the manuscript:
+Regenerate the additional robustness figures and tables used in the manuscript:
 
 ```bash
-PYTHONPATH=analysis/src python analysis/scripts/make_ael_break_figure.py --project-root analysis
-PYTHONPATH=analysis/src python analysis/scripts/make_ael_additional_robustness.py
+PYTHONPATH=analysis/src python analysis/scripts/make_regime_break_figure.py --project-root analysis
+PYTHONPATH=analysis/src python analysis/scripts/make_additional_robustness.py
 ```
 
 You can also execute notebooks non-interactively:
