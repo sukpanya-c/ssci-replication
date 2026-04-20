@@ -1,0 +1,7 @@
+"metric","value"
+"nobs",241
+"draws",1000
+"burnin",300
+"thin",2
+"horizons",12
+"tau",40

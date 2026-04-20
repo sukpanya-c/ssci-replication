@@ -1,0 +1,15 @@
+[project]
+name = "laos-fx-oil-macro-paper"
+version = "0.1.0"
+description = "Reproducible empirical pipeline for the Laos oil, exchange-rate, and inflation paper."
+requires-python = ">=3.13"
+dependencies = [
+  "numpy",
+  "pandas",
+  "matplotlib",
+  "statsmodels",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

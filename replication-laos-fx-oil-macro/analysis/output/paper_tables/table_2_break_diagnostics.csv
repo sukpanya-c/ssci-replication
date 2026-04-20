@@ -1,0 +1,6 @@
+Variable,Pre-2022 mean,Post-2022 mean,Difference (post - pre),t-statistic,p-value
+Middle East geopolitical risk,0.215,0.449,0.233,5.607,0.0
+"Oil shock, 100*Δlog(Oil)",0.105,-0.159,-0.265,-0.174,0.862
+"FX depreciation, 100*Δlog(USD/LAK)",0.051,1.297,1.245,3.518,0.001
+"Monthly inflation, 100*Δlog(CPI)",0.33,1.531,1.201,4.787,0.0
+"CPI inflation, y/y",4.087,20.869,16.782,9.985,0.0

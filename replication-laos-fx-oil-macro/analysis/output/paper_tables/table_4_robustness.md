@@ -1,0 +1,14 @@
+# Table 4. Robustness checks
+
+LP rows report 90 percent confidence intervals; the alternative GPR row reports HAC standard errors and p-values.
+
+| Specification | Regime | Effect summary | N |
+| --- | --- | --- | --- |
+| Baseline monthly inflation response at h=0 | Pre-2022 | -0.049 [-0.137, 0.039] | 189 |
+| Baseline monthly inflation response at h=0 | Post-2022 | 0.494 [0.397, 0.591] | 48 |
+| Alternative response: CPI inflation (y/y) at h=0 | Pre-2022 | -0.003 [-0.077, 0.072] | 189 |
+| Alternative response: CPI inflation (y/y) at h=0 | Post-2022 | 0.254 [-0.097, 0.605] | 48 |
+| Truncated sample through 2025-12 at h=0 | Pre-2022 | -0.049 [-0.137, 0.039] | 189 |
+| Truncated sample through 2025-12 at h=0 | Post-2022 | 0.512 [0.407, 0.617] | 46 |
+| Alternative GPR specification in monthly GPR -> oil HAC OLS | Pre-2022 | -5.467 (SE 10.253, p=0.594) | 191 |
+| Alternative GPR specification in monthly GPR -> oil HAC OLS | Post-2022 | -0.030 (SE 4.040, p=0.994) | 50 |
