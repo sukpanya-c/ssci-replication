@@ -34,7 +34,7 @@ def test_path_status_table_lists_existing_core_artifacts():
     by_label = status.set_index("label")
 
     assert bool(by_label.loc["project_root", "exists"])
-    assert bool(by_label.loc["dataset", "exists"])
+    assert bool(by_label.loc["datasets", "exists"])
     assert bool(by_label.loc["processed_panel", "exists"])
     assert bool(by_label.loc["output_root", "exists"])
     assert "manuscript" not in by_label.index

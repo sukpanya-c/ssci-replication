@@ -11,8 +11,8 @@ from laos_fx_oil_macro.data import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PANEL_PATH = ROOT.parent / "dataset" / "laos_fx_oil_macro_monthly_panel_2006-01-31_2026-02-28.csv"
-COMPONENTS_PATH = ROOT.parent / "dataset" / "GPR_ME_middle_east_components_month_end_2006-01-31_2026-02-28.csv"
+PANEL_PATH = ROOT.parent / "datasets" / "laos_fx_oil_macro_monthly_panel_2006-01-31_2026-02-28.csv"
+COMPONENTS_PATH = ROOT.parent / "datasets" / "GPR_ME_middle_east_components_month_end_2006-01-31_2026-02-28.csv"
 
 
 def test_transform_panel_creates_research_variables_and_tags():

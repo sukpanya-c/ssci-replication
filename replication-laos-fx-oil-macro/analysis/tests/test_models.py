@@ -7,7 +7,7 @@ from laos_fx_oil_macro.models import run_local_projection
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PANEL_PATH = ROOT.parent / "dataset" / "laos_fx_oil_macro_monthly_panel_2006-01-31_2026-02-28.csv"
+PANEL_PATH = ROOT.parent / "datasets" / "laos_fx_oil_macro_monthly_panel_2006-01-31_2026-02-28.csv"
 
 
 def test_local_projection_returns_horizon_table_for_post_2022_regime():

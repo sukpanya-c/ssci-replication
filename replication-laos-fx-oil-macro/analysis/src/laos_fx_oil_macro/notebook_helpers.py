@@ -124,7 +124,7 @@ def path_status_table(project: NotebookProject) -> pd.DataFrame:
     rows = [
         ("project_root", project.root),
         ("notebooks_dir", project.notebooks_dir),
-        ("dataset", project.dataset_path),
+        ("datasets", project.dataset_path),
         ("output_root", project.output_root),
         ("processed_panel", project.processed_panel),
         ("tables_dir", project.tables_dir),
@@ -148,7 +148,7 @@ def path_status_table(project: NotebookProject) -> pd.DataFrame:
 def quick_links_table(project: NotebookProject) -> pd.DataFrame:
     rows = [
         ("results_summary", project.results_summary),
-        ("dataset", project.dataset_path),
+        ("datasets", project.dataset_path),
         ("output_root", project.output_root),
         ("tables_dir", project.tables_dir),
         ("figures_dir", project.figures_dir),

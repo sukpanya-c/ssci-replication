@@ -24,7 +24,12 @@ class ProjectPaths:
 
     @property
     def dataset_root(self) -> Path:
-        candidates = [self.root / "dataset", self.root.parent / "dataset"]
+        candidates = [
+            self.root / "datasets",
+            self.root.parent / "datasets",
+            self.root / "dataset",
+            self.root.parent / "dataset",
+        ]
         for candidate in candidates:
             if candidate.exists():
                 return candidate

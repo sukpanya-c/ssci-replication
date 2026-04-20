@@ -5,7 +5,7 @@ The executable public replication sample in this folder starts in `2006-01`.
 
 ## Contents
 
-- `dataset/`: real shared data files used by the replication workflow
+- `datasets/`: real shared data files used by the replication workflow
 - `analysis/src/`: reusable Python analysis modules
 - `analysis/scripts/`: command-line runners for the pipeline, paper bundle, and additional robustness figures
 - `analysis/notebooks/`: notebook entry points for project inspection and reruns
@@ -16,9 +16,9 @@ The executable public replication sample in this folder starts in `2006-01`.
 ## Data Availability
 
 - This public bundle includes the real merged monthly panel used by the analysis:
-  - `dataset/laos_fx_oil_macro_monthly_panel_2006-01-31_2026-02-28.csv`
+  - `datasets/laos_fx_oil_macro_monthly_panel_2006-01-31_2026-02-28.csv`
 - It also includes the auxiliary Middle East component file required for the alternative GPR robustness specification:
-  - `dataset/GPR_ME_middle_east_components_month_end_2006-01-31_2026-02-28.csv`
+  - `datasets/GPR_ME_middle_east_components_month_end_2006-01-31_2026-02-28.csv`
 - No separate data dictionary is included in this public bundle. The main variables used in the empirical workflow are defined below.
 - The public replication sample in this folder runs from `2006-01-31` to `2026-02-28`.
 
