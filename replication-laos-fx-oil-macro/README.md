@@ -1,4 +1,4 @@
-# Laos Oil, FX, And Inflation Replication
+# Laos Oil, FX, and Inflation Replication
 
 This repository is the public replication package for the Laos oil, FX, and inflation analysis.
 The executable public replication sample in this folder starts in `2006-01`.
@@ -140,3 +140,4 @@ PYTHONPATH=analysis/src pytest analysis/tests -q
 
 - The strongest supported result remains the post-2022 amplification of `fx_dep -> inflation_mom`.
 - The direct reduced-form monthly `GPR_ME -> oil_shock` relationship is weak in this sample and should not be treated as the main contribution.
+- The replication package still includes an R dependency because the TVP-SV-VAR block is estimated with `bvarsv` in `analysis/scripts/run_tvp_svar.R`; Python orchestrates the workflow, but this model step is not reimplemented in Python.
