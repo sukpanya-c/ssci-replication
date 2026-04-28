@@ -10,7 +10,6 @@ The executable public replication sample in this folder starts in `2006-01`.
 - `analysis/scripts/`: command-line runners for the pipeline, paper bundle, and additional robustness figures
 - `analysis/notebooks/`: notebook entry points for project inspection and reruns
 - `analysis/output/`: generated data, tables, figures, and model summaries
-- `analysis/paper/`: generated manuscript-support summary
 - `analysis/tests/`: lightweight regression tests for the replication workflow
 
 ## Data Availability
