@@ -112,6 +112,202 @@ def export_table(df: pd.DataFrame, path: str | Path) -> Path:
     return output_path
 
 
+def export_markdown_table(df: pd.DataFrame, path: str | Path) -> Path:
+    """Write a simple markdown table without introducing extra dependencies."""
+
+    output_path = Path(path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    def _format_value(value: Any) -> str:
+        if pd.isna(value):
+            return ""
+        if isinstance(value, (float, np.floating)):
+            return f"{float(value):.3f}"
+        return str(value)
+
+    headers = [str(column) for column in df.columns]
+    lines = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join(["---"] * len(headers)) + " |",
+    ]
+    for row in df.itertuples(index=False, name=None):
+        lines.append("| " + " | ".join(_format_value(value) for value in row) + " |")
+
+    output_path.write_text("\n".join(lines) + "\n")
+    return output_path
+
+
+def build_predictive_validity_selected_genres_table(summary: pd.DataFrame) -> pd.DataFrame:
+    """Build the selected-genre predictive-validity comparison table."""
+
+    column_order = [
+        "model_name",
+        "test_rmse",
+        "test_mae",
+        "test_r2",
+        "train_adj_r2",
+        "n_train",
+        "n_test",
+        "group_overlap_count",
+    ]
+    return summary.loc[:, column_order].copy()
+
+
+def write_predictive_validity_selected_genres_notes(
+    results: dict[str, Any],
+    path: str | Path,
+) -> Path:
+    """Write a short plain-English notes file for the selected-genre predictive-validity output."""
+
+    output_path = Path(path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    summary = build_predictive_validity_selected_genres_table(results["summary"]).set_index("model_name")
+    model_2 = summary.loc["genre_plus_pooled_audio"]
+    model_3 = summary.loc["genre_conditioned_audio"]
+
+    notes = "\n".join(
+        [
+            "# Predictive Validity Notes",
+            "",
+            "## Data sample used",
+            f"- Selected market-facing genres: {' | '.join(results['selected_genres'])}",
+            f"- Analysis sample size: {len(results['analysis_data'])}",
+            "",
+            "## Train/test split method",
+            (
+                f"- GroupShuffleSplit with test_size={results['split']['test_size']} and "
+                f"random_state={results['split']['random_state']}"
+            ),
+            "- Grouping variable: track_id",
+            "- Leakage check: train/test overlap in track_id groups should be zero",
+            "",
+            "## Model specifications",
+            f"- genre_only: {results['formulas']['genre_only']}",
+            f"- genre_plus_pooled_audio: {results['formulas']['genre_plus_pooled_audio']}",
+            f"- genre_conditioned_audio: {results['formulas']['genre_conditioned_audio']}",
+            "",
+            "## Metric definitions",
+            "- RMSE: root mean squared error on the held-out test set",
+            "- MAE: mean absolute error on the held-out test set",
+            "- test R^2: out-of-sample coefficient of determination on the held-out test set",
+            "- train adjusted R^2: in-sample adjusted R^2 on the training set, reported as secondary context only",
+            "",
+            "## Headline interpretation",
+            (
+                "Genre-conditioned feature models provide predictive, platform-facing evidence only. "
+                f"Relative to the pooled-audio model, the interaction-aware specification changes test R^2 by "
+                f"{model_3['test_r2'] - model_2['test_r2']:.3f} and RMSE by "
+                f"{model_2['test_rmse'] - model_3['test_rmse']:.3f}. "
+                "These comparisons support modest but useful predictive improvement for screening and "
+                "content-positioning decisions, without implying causal effects or direct recommendation-system gains."
+            ),
+            "",
+        ]
+    )
+
+    output_path.write_text(notes)
+    return output_path
+
+
+def export_markdown_table(df: pd.DataFrame, path: str | Path) -> Path:
+    """Write a simple markdown table without introducing extra dependencies."""
+
+    output_path = Path(path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    def _format_value(value: Any) -> str:
+        if pd.isna(value):
+            return ""
+        if isinstance(value, (float, np.floating)):
+            return f"{float(value):.3f}"
+        return str(value)
+
+    headers = [str(column) for column in df.columns]
+    lines = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join(["---"] * len(headers)) + " |",
+    ]
+    for row in df.itertuples(index=False, name=None):
+        lines.append("| " + " | ".join(_format_value(value) for value in row) + " |")
+
+    output_path.write_text("\n".join(lines) + "\n")
+    return output_path
+
+
+def build_predictive_validity_selected_genres_table(summary: pd.DataFrame) -> pd.DataFrame:
+    """Build the selected-genre predictive-validity comparison table."""
+
+    column_order = [
+        "model_name",
+        "test_rmse",
+        "test_mae",
+        "test_r2",
+        "train_adj_r2",
+        "n_train",
+        "n_test",
+        "group_overlap_count",
+    ]
+    return summary.loc[:, column_order].copy()
+
+
+def write_predictive_validity_selected_genres_notes(
+    results: dict[str, Any],
+    path: str | Path,
+) -> Path:
+    """Write a short plain-English notes file for the selected-genre predictive-validity output."""
+
+    output_path = Path(path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    summary = build_predictive_validity_selected_genres_table(results["summary"]).set_index("model_name")
+    model_2 = summary.loc["genre_plus_pooled_audio"]
+    model_3 = summary.loc["genre_conditioned_audio"]
+
+    notes = "\n".join(
+        [
+            "# Predictive Validity Notes",
+            "",
+            "## Data sample used",
+            f"- Selected market-facing genres: {' | '.join(results['selected_genres'])}",
+            f"- Analysis sample size: {len(results['analysis_data'])}",
+            "",
+            "## Train/test split method",
+            (
+                f"- GroupShuffleSplit with test_size={results['split']['test_size']} and "
+                f"random_state={results['split']['random_state']}"
+            ),
+            "- Grouping variable: track_id",
+            "- Leakage check: train/test overlap in track_id groups should be zero",
+            "",
+            "## Model specifications",
+            f"- genre_only: {results['formulas']['genre_only']}",
+            f"- genre_plus_pooled_audio: {results['formulas']['genre_plus_pooled_audio']}",
+            f"- genre_conditioned_audio: {results['formulas']['genre_conditioned_audio']}",
+            "",
+            "## Metric definitions",
+            "- RMSE: root mean squared error on the held-out test set",
+            "- MAE: mean absolute error on the held-out test set",
+            "- test R^2: out-of-sample coefficient of determination on the held-out test set",
+            "- train adjusted R^2: in-sample adjusted R^2 on the training set, reported as secondary context only",
+            "",
+            "## Headline interpretation",
+            (
+                "Genre-conditioned feature models provide predictive, platform-facing evidence only. "
+                f"Relative to the pooled-audio model, the interaction-aware specification changes test R^2 by "
+                f"{model_3['test_r2'] - model_2['test_r2']:.3f} and RMSE by "
+                f"{model_2['test_rmse'] - model_3['test_rmse']:.3f}. "
+                "These comparisons support modest but useful predictive improvement for screening and "
+                "content-positioning decisions, without implying causal effects or direct recommendation-system gains."
+            ),
+            "",
+        ]
+    )
+
+    output_path.write_text(notes)
+    return output_path
+
+
 def plot_main_coefficients(results: dict[str, Any], path: str | Path) -> Path:
     """Plot Model 3 affective/audio coefficients with 95% confidence intervals."""
 

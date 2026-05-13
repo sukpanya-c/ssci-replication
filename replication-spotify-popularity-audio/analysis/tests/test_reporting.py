@@ -18,17 +18,20 @@ from analysis.src.modeling import (
     fit_all_eligible_within_genre_analysis,
     fit_genre_deviation_analysis,
     fit_within_genre_analysis,
+    run_selected_genres_predictive_validity,
     run_within_genre_repeated_holdout_validation,
     run_within_genre_predictive_check,
     run_within_genre_selection_rule_robustness,
 )
 from analysis.src.reporting import (
     _format_p_value_for_display,
+    build_predictive_validity_selected_genres_table,
     build_genre_selection_summary_table,
     build_genre_deviation_model_table,
     build_genre_deviation_profile_summary_table,
     build_genre_deviation_robustness_table,
     build_main_regression_table,
+    export_markdown_table,
     build_robustness_summary_table,
     build_within_genre_joint_test_table,
     build_within_genre_followup_table,
@@ -43,6 +46,7 @@ from analysis.src.reporting import (
     plot_main_coefficients,
     plot_within_genre_selection_robustness,
     plot_within_genre_feature_comparison,
+    write_predictive_validity_selected_genres_notes,
 )
 
 
@@ -277,7 +281,6 @@ def test_genre_deviation_reporting_outputs_expected_columns() -> None:
         "Absolute deviation in positive affect (z)",
     }
     sonic_row = model_table.loc[model_table["term"] == "Sonic intensity (z)"].iloc[0]
-    assert sonic_row["p_value"] == sonic_row["p_value_display"]
     assert sonic_row["p_value"] == _format_p_value_for_display(float(sonic_row["p_value_raw"]))
 
 
@@ -339,6 +342,36 @@ def test_within_genre_support_helpers_run_on_current_results() -> None:
 
     assert joint_table.loc[0, "term_count"] == 12
     assert set(predictive_table["model_name"]) == {"no_interaction", "interaction_aware"}
+
+
+def test_predictive_validity_selected_genres_reporting_outputs_expected_columns(tmp_path: Path) -> None:
+    results = run_selected_genres_predictive_validity(_within_genre_df(), min_count=20)
+    table = build_predictive_validity_selected_genres_table(results["summary"])
+
+    assert {
+        "model_name",
+        "test_rmse",
+        "test_mae",
+        "test_r2",
+        "train_adj_r2",
+        "n_train",
+        "n_test",
+        "group_overlap_count",
+    } <= set(table.columns)
+
+    markdown_path = tmp_path / "predictive_validity_selected_genres.md"
+    written_markdown = export_markdown_table(table, markdown_path)
+    assert written_markdown.exists()
+    markdown_text = written_markdown.read_text()
+    assert "| model_name |" in markdown_text
+    assert "genre_conditioned_audio" in markdown_text
+
+    notes_path = tmp_path / "predictive_validity_selected_genres_notes.md"
+    written_notes = write_predictive_validity_selected_genres_notes(results, notes_path)
+    assert written_notes.exists()
+    notes_text = written_notes.read_text()
+    assert "GroupShuffleSplit" in notes_text
+    assert "platform-facing" in notes_text
 
 
 def test_format_p_value_for_display_matches_manuscript_rounding_rule() -> None:

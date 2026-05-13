@@ -9,7 +9,7 @@ import statsmodels.api as sm
 import statsmodels.formula.api as smf
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import GroupShuffleSplit
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -426,6 +426,86 @@ def run_within_genre_predictive_check(
         rows.append(row)
 
     return pd.DataFrame(rows)
+
+
+def run_selected_genres_predictive_validity(
+    df: pd.DataFrame,
+    min_count: int = WITHIN_GENRE_MIN_COUNT,
+    focal_features: Sequence[str] = WITHIN_GENRE_FOCAL_FEATURES,
+    random_state: int = RANDOM_STATE,
+) -> dict[str, Any]:
+    """Run a compact selected-genre predictive-validity comparison with three OLS-style models."""
+
+    prepared = _prepare_analysis_frame(df)
+    selection = select_market_relevant_genres(prepared, min_count=min_count)
+    selected_genres = selection["selected_genre"].tolist()
+    selected = prepared.loc[prepared[GENRE_COLUMN].isin(selected_genres)].copy()
+    selected = _set_formula_categories(selected, selected_genres)
+
+    focal_features = tuple(focal_features)
+    focal_formula = " + ".join(focal_features)
+    formulas = {
+        "genre_only": f"{OUTCOME_COLUMN} ~ C({GENRE_COLUMN})",
+        "genre_plus_pooled_audio": (
+            f"{OUTCOME_COLUMN} ~ duration_ms + explicit + C(key) + C(mode) + "
+            f"C(time_signature) + C({GENRE_COLUMN}) + {focal_formula}"
+        ),
+        "genre_conditioned_audio": (
+            f"{OUTCOME_COLUMN} ~ duration_ms + explicit + C(key) + C(mode) + "
+            f"C(time_signature) + C({GENRE_COLUMN}) * ({focal_formula})"
+        ),
+    }
+
+    splitter = GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=random_state)
+    train_index, test_index = next(splitter.split(selected, groups=selected[TRACK_ID_COLUMN].astype(str)))
+    train_df = selected.iloc[train_index].copy()
+    test_df = selected.iloc[test_index].copy()
+    group_overlap_count = len(
+        set(train_df[TRACK_ID_COLUMN].astype(str)) & set(test_df[TRACK_ID_COLUMN].astype(str))
+    )
+
+    rows: list[dict[str, Any]] = []
+    fitted_models: dict[str, Any] = {}
+    for model_name, formula in formulas.items():
+        fitted = smf.ols(formula, data=train_df).fit()
+        predictions = fitted.predict(test_df)
+        fitted_models[model_name] = fitted
+        rows.append(
+            {
+                "model_name": model_name,
+                "test_rmse": float(np.sqrt(mean_squared_error(test_df[OUTCOME_COLUMN], predictions))),
+                "test_mae": float(mean_absolute_error(test_df[OUTCOME_COLUMN], predictions)),
+                "test_r2": float(r2_score(test_df[OUTCOME_COLUMN], predictions)),
+                "train_adj_r2": float(fitted.rsquared_adj),
+                "n_train": int(len(train_df)),
+                "n_test": int(len(test_df)),
+                "group_overlap_count": int(group_overlap_count),
+            }
+        )
+
+    summary = pd.DataFrame(rows)
+    return {
+        "selection_table": selection.reset_index(drop=True),
+        "selected_genres": selected_genres,
+        "selection_rule": {
+            "selection_mode": "market_facing_subset",
+            "min_count": min_count,
+            "target_genres": WITHIN_GENRE_TARGET_GENRES,
+            "excluded_genres": WITHIN_GENRE_EXCLUDED_GENRES,
+        },
+        "focal_features": focal_features,
+        "analysis_data": selected,
+        "train_df": train_df,
+        "test_df": test_df,
+        "split": {
+            "splitter": "GroupShuffleSplit",
+            "test_size": 0.2,
+            "random_state": int(random_state),
+        },
+        "formulas": formulas,
+        "models": fitted_models,
+        "summary": summary,
+    }
 
 
 def run_within_genre_selection_rule_robustness(

@@ -21,6 +21,7 @@ from analysis.src.modeling import (
     fit_robustness_models,
     fit_within_genre_analysis,
     run_grouped_predictive_check,
+    run_selected_genres_predictive_validity,
     run_within_genre_repeated_holdout_validation,
     run_within_genre_predictive_check,
     run_within_genre_selection_rule_robustness,
@@ -280,6 +281,27 @@ def test_run_within_genre_predictive_check_returns_two_models_without_leakage() 
 
     assert set(summary["model_name"]) == {"no_interaction", "interaction_aware"}
     assert summary["group_overlap_count"].eq(0).all()
+
+
+def test_run_selected_genres_predictive_validity_returns_three_models_and_reuses_holdout_logic() -> None:
+    results = run_selected_genres_predictive_validity(_within_genre_df(), min_count=20)
+    summary = results["summary"].set_index("model_name")
+    current_check = run_within_genre_predictive_check(_within_genre_df(), min_count=20).set_index("model_name")
+
+    assert results["selected_genres"] == ["pop", "rock", "hip-hop", "jazz", "electronic"]
+    assert set(summary.index) == {"genre_only", "genre_plus_pooled_audio", "genre_conditioned_audio"}
+    assert {"test_rmse", "test_mae", "test_r2", "train_adj_r2", "n_train", "n_test", "group_overlap_count"} <= set(
+        summary.columns
+    )
+    assert summary["group_overlap_count"].eq(0).all()
+    assert np.isclose(
+        summary.loc["genre_plus_pooled_audio", "test_r2"],
+        current_check.loc["no_interaction", "test_r2"],
+    )
+    assert np.isclose(
+        summary.loc["genre_conditioned_audio", "test_rmse"],
+        current_check.loc["interaction_aware", "test_rmse"],
+    )
 
 
 def test_run_within_genre_selection_rule_robustness_returns_threshold_rows() -> None:

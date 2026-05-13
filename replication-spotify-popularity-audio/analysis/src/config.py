@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Iterable
 
 RAW_DATA_PATH = Path("dataset/spotify_popularity_audio_dataset.csv")
+OUTPUT_DIR = Path("analysis/output")
 OUTPUT_DATA_DIR = Path("analysis/output/data")
 OUTPUT_TABLE_DIR = Path("analysis/output/tables")
 OUTPUT_FIGURE_DIR = Path("analysis/output/figures")
@@ -31,6 +32,11 @@ WITHIN_GENRE_REPEATED_HOLDOUT_SUMMARY_TABLE_PATH = (
 )
 WITHIN_GENRE_REPEATED_HOLDOUT_RAW_TABLE_PATH = OUTPUT_TABLE_DIR / "within_genre_repeated_holdout_raw.csv"
 WITHIN_GENRE_ALL_ELIGIBLE_COMPARISON_TABLE_PATH = OUTPUT_TABLE_DIR / "within_genre_all_eligible_comparison.csv"
+PREDICTIVE_VALIDITY_SELECTED_GENRES_TABLE_PATH = OUTPUT_TABLE_DIR / "predictive_validity_selected_genres.csv"
+PREDICTIVE_VALIDITY_SELECTED_GENRES_MARKDOWN_PATH = OUTPUT_TABLE_DIR / "predictive_validity_selected_genres.md"
+PREDICTIVE_VALIDITY_SELECTED_GENRES_NOTES_PATH = (
+    OUTPUT_DIR / "predictive_validity_selected_genres_notes.md"
+)
 GENRE_PROFILE_SUMMARY_TABLE_PATH = OUTPUT_TABLE_DIR / "genre_profile_summary_table.csv"
 GENRE_DEVIATION_MODEL_TABLE_PATH = OUTPUT_TABLE_DIR / "genre_deviation_model_table.csv"
 GENRE_DEVIATION_ROBUSTNESS_TABLE_PATH = OUTPUT_TABLE_DIR / "genre_deviation_robustness_table.csv"

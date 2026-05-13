@@ -17,6 +17,9 @@ try:
         MANUSCRIPT_ROBUSTNESS_EXPORT_PATH,
         MAIN_COEFFICIENT_FIGURE_PATH,
         MAIN_REGRESSION_TABLE_PATH,
+        PREDICTIVE_VALIDITY_SELECTED_GENRES_MARKDOWN_PATH,
+        PREDICTIVE_VALIDITY_SELECTED_GENRES_NOTES_PATH,
+        PREDICTIVE_VALIDITY_SELECTED_GENRES_TABLE_PATH,
         PREDICTIVE_CHECK_TABLE_PATH,
         PRIMARY_EXPORT_PATH,
         ROBUSTNESS_EXPORT_PATH,
@@ -44,11 +47,13 @@ try:
         fit_within_genre_analysis,
         load_analysis_dataset,
         run_grouped_predictive_check,
+        run_selected_genres_predictive_validity,
         run_within_genre_predictive_check,
         run_within_genre_repeated_holdout_validation,
         run_within_genre_selection_rule_robustness,
     )
     from .reporting import (
+        build_predictive_validity_selected_genres_table,
         build_genre_deviation_model_table,
         build_genre_deviation_profile_summary_table,
         build_genre_deviation_robustness_table,
@@ -63,11 +68,13 @@ try:
         build_within_genre_robustness_table,
         build_within_genre_scope_comparison_table,
         build_within_genre_selection_robustness_table,
+        export_markdown_table,
         export_table,
         plot_genre_deviation_effects,
         plot_main_coefficients,
         plot_within_genre_feature_comparison,
         plot_within_genre_selection_robustness,
+        write_predictive_validity_selected_genres_notes,
     )
 except ImportError:  # pragma: no cover - compatibility for direct module execution
     from audit import audit_dataset
@@ -83,6 +90,9 @@ except ImportError:  # pragma: no cover - compatibility for direct module execut
         MANUSCRIPT_ROBUSTNESS_EXPORT_PATH,
         MAIN_COEFFICIENT_FIGURE_PATH,
         MAIN_REGRESSION_TABLE_PATH,
+        PREDICTIVE_VALIDITY_SELECTED_GENRES_MARKDOWN_PATH,
+        PREDICTIVE_VALIDITY_SELECTED_GENRES_NOTES_PATH,
+        PREDICTIVE_VALIDITY_SELECTED_GENRES_TABLE_PATH,
         PREDICTIVE_CHECK_TABLE_PATH,
         PRIMARY_EXPORT_PATH,
         ROBUSTNESS_EXPORT_PATH,
@@ -110,11 +120,13 @@ except ImportError:  # pragma: no cover - compatibility for direct module execut
         fit_within_genre_analysis,
         load_analysis_dataset,
         run_grouped_predictive_check,
+        run_selected_genres_predictive_validity,
         run_within_genre_predictive_check,
         run_within_genre_repeated_holdout_validation,
         run_within_genre_selection_rule_robustness,
     )
     from reporting import (
+        build_predictive_validity_selected_genres_table,
         build_genre_deviation_model_table,
         build_genre_deviation_profile_summary_table,
         build_genre_deviation_robustness_table,
@@ -129,11 +141,13 @@ except ImportError:  # pragma: no cover - compatibility for direct module execut
         build_within_genre_robustness_table,
         build_within_genre_scope_comparison_table,
         build_within_genre_selection_robustness_table,
+        export_markdown_table,
         export_table,
         plot_genre_deviation_effects,
         plot_main_coefficients,
         plot_within_genre_feature_comparison,
         plot_within_genre_selection_robustness,
+        write_predictive_validity_selected_genres_notes,
     )
 
 
@@ -191,12 +205,26 @@ def run_main_analysis_workflow(project_root: str | Path) -> dict[str, Any]:
             focal_features=within_genre_results["focal_features"],
         )
     )
+    predictive_validity_results = run_selected_genres_predictive_validity(
+        primary_sample,
+        min_count=within_genre_results["selection_rule"]["min_count"],
+        focal_features=within_genre_results["focal_features"],
+    )
+    predictive_validity_table = build_predictive_validity_selected_genres_table(
+        predictive_validity_results["summary"]
+    )
     export_table(genre_selection_table, root / GENRE_SELECTION_TABLE_PATH)
     export_table(within_genre_interaction_table, root / WITHIN_GENRE_INTERACTION_TABLE_PATH)
     export_table(within_genre_followup_table, root / WITHIN_GENRE_FOLLOWUP_TABLE_PATH)
     export_table(within_genre_robustness_table, root / WITHIN_GENRE_ROBUSTNESS_TABLE_PATH)
     export_table(within_genre_joint_test_table, root / WITHIN_GENRE_JOINT_TEST_TABLE_PATH)
     export_table(within_genre_predictive_check_table, root / WITHIN_GENRE_PREDICTIVE_CHECK_TABLE_PATH)
+    export_table(predictive_validity_table, root / PREDICTIVE_VALIDITY_SELECTED_GENRES_TABLE_PATH)
+    export_markdown_table(predictive_validity_table, root / PREDICTIVE_VALIDITY_SELECTED_GENRES_MARKDOWN_PATH)
+    write_predictive_validity_selected_genres_notes(
+        predictive_validity_results,
+        root / PREDICTIVE_VALIDITY_SELECTED_GENRES_NOTES_PATH,
+    )
     within_genre_figure_path = plot_within_genre_feature_comparison(
         within_genre_results,
         root / WITHIN_GENRE_FIGURE_PATH,
@@ -279,6 +307,7 @@ def run_main_analysis_workflow(project_root: str | Path) -> dict[str, Any]:
             "pooled_formula": within_genre_results["pooled_formula"],
             "joint_test": within_genre_joint_test_table,
             "predictive_check": within_genre_predictive_check_table,
+            "predictive_validity": predictive_validity_table,
             "robustness_formula": within_genre_results["robustness_formula"],
             "figure_path": str(within_genre_figure_path),
         },
